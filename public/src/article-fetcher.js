@@ -1,19 +1,17 @@
 const fetch = require('node-fetch')
 
-ArticleFetcher = function() {
-  this.apiUrl = "http://news-summary-api.herokuapp.com/guardian?apiRequestUrl="
-  this.requestUrl = "http://content.guardianapis.com/search"
-  this.order = "order-by=newest"
-  this.fields = "show-fields=headline%2Cthumbnail%2CtrailText"
-  this.format = "format=JSON"
-}
+exports: getHeadlines = function() {
+  const apiUrl = "http://news-summary-api.herokuapp.com/guardian?apiRequestUrl="
+  const requestUrl = "http://content.guardianapis.com/search"
+  const order = "order-by=newest"
+  const fields = "show-fields=headline%2Cthumbnail%2CtrailText"
+  const format = "format=JSON"
 
-ArticleFetcher.prototype.request = function() {
-  const url = this.apiUrl
-            + this.requestUrl + '?'
-            + this.order + '&'
-            + this.fields + '&'
-            + this.format
+  const url = apiUrl
+            + requestUrl + '?'
+            + order + '&'
+            + fields + '&'
+            + format
 
   const getData = (url) =>{
   return fetch(url);
@@ -21,5 +19,7 @@ ArticleFetcher.prototype.request = function() {
 
   getData(url).
   then(data=> data.json()).
-  then(result=> console.log(result))
+  then(result=> result.response.results.forEach(article => article.webTitle))
+
+
 }

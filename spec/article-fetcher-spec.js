@@ -3,10 +3,13 @@ require('test-sweet')
 require('../public/src/article-fetcher.js')
 const response = require('../api-response.json')
 
-represent("Article-Fetcher", function() {
+represent("getHeadlines", function() {
   it('sends an API request to the Guardian and returns a response', function() {
-    articleFetcher = new ArticleFetcher
-    stub = stub(articleFetcher.request).with(response)
+    stub = stub(getHeadlines()).with(response)
     expect(stub.response.status).toEqual("ok")
+  })
+  it('returns the headlines', function() {
+    headlines = getHeadlines()
+    expect(headlines).toEqual(response.response.results.forEach(article => article.webTitle))
   })
 })
